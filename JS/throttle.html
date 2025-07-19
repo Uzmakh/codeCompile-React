@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Throtting In JavaScript (Lecture-26)</title>
+  </head>
+  <body>
+    <button id="btn">Click Fast</button>
+    <p>Count: <span id="count">0</span></p>
+
+    <script>
+      let count = 0;
+      function throttle(fn, limit) {
+        let wait = false;
+        return function () {
+          if (wait) return;
+          fn();
+          wait = true;
+          setTimeout(() => {
+            wait = false;
+          }, limit);
+        };
+      }
+
+      const updateCount = () => {
+        document.getElementById("count").textContent = count++;
+      };
+
+      document
+        .getElementById("btn")
+        .addEventListener("click", throttle(updateCount, 5000));
+    </script>
+  </body>
+</html>
