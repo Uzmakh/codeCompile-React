@@ -5,7 +5,9 @@ const DailyTasks = () => {
     // const countTask = () => {
     //     return task;
     // }
-    // use of if-else condition
+
+  
+  //* use of if-else condition
     const countTask = () => {
         // if (task === 0) {
         //     return "No task available!!";
@@ -14,8 +16,10 @@ const DailyTasks = () => {
         // }
        return task === 0 ? "No task available!!" : `Total tasks:  ${task}`; 
     }
-    // alternatively,use of ternary operator
+    //* alternatively,use of ternary operator
 
+  // * adding attribute to element
+  const isDisabled = true;
   return (
     <div>
           <h1>DailyTask</h1>
@@ -23,7 +27,7 @@ const DailyTasks = () => {
           <h2> {task}</h2>
           {/* using/calling function */}
           <h2> {countTask()}</h2>
-          <button>Add Task</button>
+          <button disabled={isDisabled} value="Add the task">Add Task</button>
     </div>
   )
 }
