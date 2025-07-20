@@ -19,7 +19,12 @@ const DailyTasks = () => {
     //* alternatively,use of ternary operator
 
   // * adding attribute to element
-  const isDisabled = true;
+  const isDisabled = false;
+
+  // * handling event
+  const handleClick = (e) => {
+    console.log("Button Clicked!", e);
+  };
   return (
     <div>
           <h1>DailyTask</h1>
@@ -27,7 +32,7 @@ const DailyTasks = () => {
           <h2> {task}</h2>
           {/* using/calling function */}
           <h2> {countTask()}</h2>
-          <button disabled={isDisabled} value="Add the task">Add Task</button>
+          <button disabled={isDisabled} value="Add the task" onClick={handleClick}>Add Task</button>
     </div>
   )
 }
