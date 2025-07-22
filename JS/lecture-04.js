@@ -3,17 +3,17 @@
 
 // ? var
 // var a = 10;
-// a = 20;
+// var a = 20;
 // console.log(a);    //redeclared and reassigned
 
 // ? let
-// let a = 10;
-// a = 50;
-// console.log(a);  //can't redeclared but can be reasigned
+// let b = 10;
+// b = 50;
+// console.log(b);  //can't redeclared but can be reassigned
 
 // ? const
-// const a = 10;
-// a = 20;
+// const c = 10;
+// c = 20;
 // console.log(a);    //can't be reassigned
 
 // ? Function Scope
@@ -22,7 +22,7 @@
 //     if (true) {
 //         var x = 10;
 //     }
-//     console.log(x);    //function-scope
+//     console.log(x);    //function-scope, so is printed in console,outside of the block where it is declared
 // }
 // varExample();
 
@@ -31,7 +31,7 @@
 // function letExample() {
 //     if (true) {
 //         let x = 10;
-//         // console.log(x);   //block-scope
+//         console.log(x);   //block-scope
 //     }
 //     console.log(x);   //not accessible
 // }
