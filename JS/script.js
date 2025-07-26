@@ -77,8 +77,8 @@ console.log("Result:", result);
 console.log("Array:", arr);
 
 // ? Practice-6
-for (var i = 1; i <; i4++) {
+for (var i = 1; i <4; i++) {
     setTimeout(() => {
         console.log(i)
     }, 1000)
-}
+}   //whole function will execute 4 times
