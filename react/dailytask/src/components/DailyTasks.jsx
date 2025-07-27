@@ -1,7 +1,7 @@
 import React from 'react'
 
 const DailyTasks = () => {
-    const task = 0;
+    let task = 0;
     // const countTask = () => {
     //     return task;
     // }
@@ -23,6 +23,7 @@ const DailyTasks = () => {
 
   // * handling event
   const handleClick = (e) => {
+    task++;
     console.log("Button Clicked!", e);
   };
   return (
