@@ -5,16 +5,16 @@
 
 // ? Optional Chaining(?.)
 const User = {
-    name: "Umar",
-// address:{
-//     city: "Wah",
-//     pinCode:11066
-// },
-// getData: function () {
-//     return this.name;
-// },
-preferences: null,
-}
+  name: "Umar",
+  // address:{
+  //     city: "Wah",
+  //     pinCode:11066
+  // },
+  // getData: function () {
+  //     return this.name;
+  // },
+  preferences: null,
+};
 
 // const city = User.address.city;
 // console.log(city);
