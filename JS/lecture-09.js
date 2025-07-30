@@ -4,8 +4,8 @@
 // ? Logical OR(||)
 
 // ? Optional Chaining(?.)
-// const User = {
-//     name: "Umar",
+const User = {
+    name: "Umar",
 // address:{
 //     city: "Wah",
 //     pinCode:11066
@@ -13,8 +13,8 @@
 // getData: function () {
 //     return this.name;
 // },
-// preferences: null,
-// }
+preferences: null,
+}
 
 // const city = User.address.city;
 // console.log(city);
@@ -22,10 +22,10 @@
 // * But if you are not sure of nested object, how can you access a specific key-value;
 // * you can't access it but can avoid errors in console, and simply get undefined.
 
-// const city = User?.address?.city;
-// console.log(city);
+const city = User?.address?.city;
+console.log(city);
 
-// console.log(User.getData?.());
+console.log(User.getData?.());
 
 // ? Nullish Coalescing(??)
 // * if any property is null or undefined,
