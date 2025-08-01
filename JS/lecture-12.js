@@ -29,48 +29,49 @@ const arr = [
     {
         id: 5,
         name: "Franklin Bot",
-        age: 23,
+        age: 36,
         price: 600
     },
 ];
 
 // ? .map()
 // * in regular syntax
-// const names = arr.map((user) => { return user.name.toUpperCase() });
+const names = arr.map((user) => { return user.name.toUpperCase() });
 // * in arrow function
 // const names = arr.map((user) => user.name.toUpperCase());
 
-// console.log(names);
+console.log(names);
 
 // ? .filter()
-// const ages = arr.filter(user => user.age > 25);
-// console.log(ages);
+const ages = arr.filter(user => user.age > 25);
+console.log(ages);
 
 // * Method Chaining: filter & map used in a chain
 
-// const result =
-//     arr.filter(user => user.age > 20).map(user => user.name.toUpperCase());
+const result =
+    arr.filter(user => user.age > 20).map(user => user.name.toUpperCase());
 
-// console.log(result);
+console.log(result);
 
 
 // ? .join()
 // * first, you need to define names
-// const namesString = names.join(", ");
-// console.log(namesString);
+const namesString = names.join(", ");
+console.log(namesString);
 
 // ?.split()
-// * 
-// const namesArray = namesString.split(", ");
-// console.log(namesArray);
+// * To revert back into array-form
+const namesArray = namesString.split(", ");
+console.log(namesArray);
 
 // ? .find()
-// const user = arr.find(user => user.age > 30);
-// console.log(user);
+// * It returns the first value that meets the condition
+const user = arr.find(user => user.age > 30);
+console.log(user);
 
 // ? .findIndex()
-// const nameIndex = arr.findIndex(user => user.name === "Diana Milli");
-// console.log(nameIndex);
+const nameIndex = arr.findIndex(user => user.name === "Diana Milli");
+console.log(nameIndex);
 
 // ? .reduce()
 const total = arr.reduce((sum, item) => sum + item.price, 0);
