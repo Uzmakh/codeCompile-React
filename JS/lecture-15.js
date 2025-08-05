@@ -6,6 +6,8 @@
 // * Mostly used in array/object cloning and merging
 // * And in case of function calling
 
+// const newArray = [...oldArray];
+// const newObject = { ...oldObject };
 
 // * Mostly used in array/object cloning and merging
 // * array
