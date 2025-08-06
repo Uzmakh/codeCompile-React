@@ -21,3 +21,15 @@ console.log(input);
 
 const isLoggedIn = false;
 isLoggedIn && console.log("WElcome Back!");
+
+// * Example:
+const library = [
+    {
+        id:1,
+        title: 'The Fishing Rod',
+        reviews: {
+            reviewsCount:0,
+        }
+    }
+]
+console.log(library[0].reviews.reviewsCount || 'No Data');

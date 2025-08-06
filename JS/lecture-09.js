@@ -30,8 +30,8 @@ console.log(User.getData?.());
 // ? Nullish Coalescing(??)
 // * if any property is null or undefined,
 // * set default value after nullish coalescing
-// const prefs = User.preferences ?? "No preferences set";
-// console.log(prefs);
+const prefs = User.preferences ?? "No preferences set";
+console.log(prefs);
 
 // * you can do this with optional chaining also
 // const city = User?.address?.city ?? "Lahore";
