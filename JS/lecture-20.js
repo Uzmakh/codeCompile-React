@@ -1,3 +1,6 @@
+
+// ! Lecture-20
+// ? Event Delegation and Event Bubbling
 document.getElementById("grandParent").addEventListener('click', () => {
     console.log("GrandParent Clicked!")
 });
@@ -16,8 +19,8 @@ document.getElementById("child").addEventListener('click', () => {
 // ? Example for Event Delegation
 
 document.getElementById("menu").addEventListener('click', (e) => {
-    // console.log(e);
-    // console.log("Item is clicked!");
+    console.log(e);
+    console.log("Item is clicked!");
     console.log("Clicked", e.target.textContent);
 });
 
