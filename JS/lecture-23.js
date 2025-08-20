@@ -9,7 +9,7 @@
 
 function slowAdd(a, b) {
         //* expensive loop to execute
-    for (let i = 1; 1 < 1e8; i++){
+    for (let i = 1; 1 < 1e8; i++){     //1*(10*8)
         return a + b;
     }
 }
