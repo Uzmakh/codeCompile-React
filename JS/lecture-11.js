@@ -13,9 +13,11 @@ const User = {
 //* I want to create its copy. There are 2 ways; shallow copy and deep copy;
 //* Shallow Copy: 2 methods to do this
 // ? Method-1:
-const shallowCopy = Object.assign({}, User);
+// const shallowCopy = Object.assign({}, User);
 // ? Method-2:
-// const shallowCopy = { ...User };
+const shallowCopy = { ...User };
+
+
 //* Deep Copy
 const deepCopy = JSON.parse(JSON.stringify(User));
 
@@ -24,7 +26,7 @@ User.address.city = "Okara";
 
 console.log("Shallow Copy :", shallowCopy);
 console.log("Shallow Copy :", shallowCopy.address.city);
-// * the change in original will also reflects/updates in shallow bcz their memory reference is the same(they share the same memory reference)
+// * the change in original will also reflect/update in/the shallow bcz their memory reference is the same(they share the same memory reference)
 
 console.log("Deep Copy :", deepCopy);
 console.log("Deep Copy :", deepCopy.address.city);
