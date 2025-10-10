@@ -8,12 +8,12 @@
 // }
 
 // *  Classes: Blueprints for Objects (ES6)
-class Person{
-    constructor(name,age) {
-        this.name = name;
-           this.age = age;
-    }
-}
+// class Person{
+//     constructor(name,age) {
+//         this.name = name;
+//            this.age = age;
+//     }
+// }
 //* As the object is created(Memory allocated to it), the constructor function executes/calls at that time,immediately
 
 // const person = new Person("Khadim");
@@ -28,9 +28,9 @@ class Person{
 
 // ? get & set method in objects
 class Person{
-    constructor(name) {
+    constructor(name,age) {
         this._name = name;   // Convention: _prefix for "private"
-        this._age = newAge;
+        this._age = age;
     }
         //getter
     get name() {
