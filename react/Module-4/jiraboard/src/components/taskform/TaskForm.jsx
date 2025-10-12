@@ -9,18 +9,15 @@ const TaskForm = () => {
           type="text"
           className="task_input"
           placeholder="Enter task details"
-          Enter
-          task
-          details
         />
 
         <div className="task_form_bottom">
           <div className="tag_container">
             <Tag tagName="DEV" />
             <Tag tagName="QA" />
- <Tag tagName="Product Owner" />
+            <Tag tagName="Product Owner" />
           </div>
-          <div>
+          <div className="status_add">
             <select name="" id="" className="task_status">
               <option value="  Ready for development" className="value">
                 Ready for development
