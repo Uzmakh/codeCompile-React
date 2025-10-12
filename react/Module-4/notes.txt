@@ -1,0 +1,207 @@
+  Module-4-Hands-on Project - Learn By Building
+
+ Lecture-1-Introduction: Project Overview, Planning, and the Developer Mindset
+
+
+ Lecture-02 Design Breakdown: Header + Main with Styling
+
+First we go to index.html and update title.
+ <title>Jira Board</title> 
+ Then proceed further as;
+
+Header + Main with Styling
+- We use semantic html for the structure.
+- Our design can easily be split into two major parts: header and main;
+- we use <header> and <main> semantic tags 
+
+App.jsx
+import "./App.css";
+
+const App = () => {
+  return (
+    <div className="app">
+      <header className="app_header">Jira Board</header>
+      <main className="app_main">
+        <section className="task_column">Section-1</section>
+        <section className="task_column">Section-2</section>
+        <section className="task_column">Section-3</section>
+        <section className="task_column">Section-4</section>
+      </main>
+    </div>
+  );
+};
+export default App;
+
+App.css
+.app{
+  display:grid;
+  grid-template-rows: 150px auto;
+}
+.app_main{
+  display: flex;
+  justify-content: space-evenly;
+  padding:20px 8%;
+}
+.task_column{
+  width:30%;
+  background-color: red;
+  margin:20px;
+}
+
+
+ Lecture-03 Building the Header Layout – JSX and Component Basics
+
+App.jsx
+import TaskForm from "./components/taskform/TaskForm";
+import "./App.css";
+
+const App = () => {
+  return (
+    <div className="app">
+      <h1 style={{textAlign:"center",marginTop:"50px",textDecoration:"underline"}}>Jira Board</h1>
+      <TaskForm/>
+      </div>
+     );
+};
+
+export default App;
+
+WHAT WE DID IN APP.JSX
+(We transformed this line 
+ <header className="app_header">Jira Board</header>
+ to
+    <h1 style={{textAlign:"center",marginTop:"50px",textDecoration:"underline"}}>Jira Board</h1>)
+    AND imported <TaskForm/> under heading-h1
+
+TaskForm.jsx
+import "./task-form.css";
+const TaskForm = () => {
+    return (
+        <header className="app_header">
+            <form>
+                <input type='text' placeholder='Enter Class Details' className='task_input' />
+
+                <div className='tag_container'>
+                    <button className='tag'>DEV</button>
+                    <button className='tag'>QA</button>
+                    <button className='tag'>Product Owner</button>
+                </div>
+
+                <select className='task_status'>
+                    <option value="Ready For Development">Ready For Development</option>
+                    <option value="Task In Progress">Task In Progress</option>
+                    <option value="Ready For Test">Ready For Test</option>
+                    <option value="Closed">Closed</option>
+                </select>
+
+                <button type='submit' className='task_submit'>+Add</button>
+            </form>
+
+        </header>
+    )
+}
+export default TaskForm
+
+Lecture-04   Header Structure & Styling – Step by Step CSS Guide
+WHAT WE DO IN THIS LECTURE-STYLING OF THE <TaskForm/>
+
+Lecture-05 Creating a Reusable Tag Component
+We review <TaskForm/> component to see where the code is repeateed in tags form so that we can transform them into separate components.So that
+We can reuse them in overall design.
+
+Tag.jsx (child)
+import "./tag.css";
+
+const Tag = (props) => {
+  console.log(props);
+  const { tagName } = props;
+  return (
+    <div className="tag-container">
+      <button className="tag">{tagName}</button>
+    </div>
+  );
+};
+
+export default Tag;
+
+Lecture-06 In this lecture, we use a reusable tag component and used props to pass data to display content dynamically.
+(In Tag.jsx,To give individual values to each tag, we use props to fetch the data-values from parent to child)
+TaskForm.jsx (parent)
+ <div className='tag_container'>
+                    <button className='tag'>DEV</button>
+                    <button className='tag'>QA</button>
+                    <button className='tag'>Product Owner</button>
+                </div> transformed to:
+ <div className="tag_container">
+            <Tag tagName="DEV" />
+            <Tag tagName="QA" />
+            <Tag tagName="Product Owner" />
+          </div>
+
+Put the css of .tag selector from taskform.css into its own file-tag.css
+tag.css
+.tag_container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.tag {
+
+  background: #f9f9f9;
+  color: #000;
+  border: 1px solid #dfe3e6;
+  border-radius: 5px;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 2px 8px;
+  margin-bottom: 15px;
+  margin-left: 2px;
+  cursor: pointer;
+}
+
+WHAT WE DID IN LECTURE-05, REUSE THE tTAG COMPONENT THREE TIMES AND PASS THE DATA FROM PARENT TO CHILD IN LECTURE-06 THROUGH PROPS.
+PROPS RECEIVED IN CHILD AND WE DESTRUCTURE IT HERE.
+
+Lecture-07 Creating a Column Component with Styling
+Uptill here, we formed a component for header-<TaskForm/>
+Now for main, we are going to create <TaskColumn/> component.
+
+So the main 
+<main className="app_main">
+        <section className="task_column">Section-1</section>
+        <section className="task_column">Section-2</section>
+        <section className="task_column">Section-3</section>
+        <section className="task_column">Section-4</section>
+      </main>
+      will change into:
+      <main className="app_main">
+       <TaskColumn heading="Ready For Development"/>
+        <TaskColumn heading="In Progress" />
+        <TaskColumn heading=" Ready for Test" />
+        <TaskColumn heading="Closed" icon={checkmarkIcon} />
+      </main>
+We are passing headings for each task-column into props,which are received by the child-component-<TaskColumn/>
+
+In this lecture, we created a column component, reused it,passing title as heading in props and also added styling to it in taskcolumn.css
+
+TaskColumn.jsx
+import "./taskcolumn.css";
+
+const TaskColumn = (props) => {
+  const { heading, icon } = props;
+  return (
+    <section className="task_column">
+      <h2 className="task_column_heading">
+        <img src={icon} alt="" className="task_column_icon" />
+        {heading}
+      </h2>
+    </section>
+  );
+};
+
+export default TaskColumn;
+
+*WE IMPORT ANY IMAGE AS PATH AND USE ITS VARIABLE IN PROPS
+
+Lecture-08 Creating a Card Component with Styling
