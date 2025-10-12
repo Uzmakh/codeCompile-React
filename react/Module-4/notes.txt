@@ -51,29 +51,9 @@ App.css
 
  Lecture-03 Building the Header Layout – JSX and Component Basics
 
-App.jsx
-import TaskForm from "./components/taskform/TaskForm";
-import "./App.css";
+ We create our first component here in this lecture;<TaskForm/> and import it in App.jsx
 
-const App = () => {
-  return (
-    <div className="app">
-      <h1 style={{textAlign:"center",marginTop:"50px",textDecoration:"underline"}}>Jira Board</h1>
-      <TaskForm/>
-      </div>
-     );
-};
-
-export default App;
-
-WHAT WE DID IN APP.JSX
-(We transformed this line 
- <header className="app_header">Jira Board</header>
- to
-    <h1 style={{textAlign:"center",marginTop:"50px",textDecoration:"underline"}}>Jira Board</h1>)
-    AND imported <TaskForm/> under heading-h1
-
-TaskForm.jsx
+ TaskForm.jsx
 import "./task-form.css";
 const TaskForm = () => {
     return (
@@ -102,11 +82,35 @@ const TaskForm = () => {
 }
 export default TaskForm
 
+App.jsx
+import TaskForm from "./components/taskform/TaskForm";
+import "./App.css";
+
+const App = () => {
+  return (
+    <div className="app">
+      <h1 style={{textAlign:"center",marginTop:"50px",textDecoration:"underline"}}>Jira Board</h1>
+      <TaskForm/>
+      </div>
+     );
+};
+
+export default App;
+
+WHAT WE DID IN APP.JSX
+(We transformed this line from Lec-02
+ <header className="app_header">Jira Board</header>
+ to
+    <h1 style={{textAlign:"center",marginTop:"50px",textDecoration:"underline"}}>Jira Board</h1>)
+    AND imported <TaskForm/> under heading-h1 in App.jsx
+
+
+
 Lecture-04   Header Structure & Styling – Step by Step CSS Guide
 WHAT WE DO IN THIS LECTURE-STYLING OF THE <TaskForm/>
 
 Lecture-05 Creating a Reusable Tag Component
-We review <TaskForm/> component to see where the code is repeateed in tags form so that we can transform them into separate components.So that
+We review <TaskForm/> component to see where the code is repeated in tags form so that we can transform them into separate components.And later
 We can reuse them in overall design.
 
 Tag.jsx (child)
@@ -160,10 +164,11 @@ tag.css
   cursor: pointer;
 }
 
-WHAT WE DID IN LECTURE-05, REUSE THE tTAG COMPONENT THREE TIMES AND PASS THE DATA FROM PARENT TO CHILD IN LECTURE-06 THROUGH PROPS.
+WHAT WE DID IN LECTURE-05, REUSE THE TAG COMPONENT THREE TIMES AND PASS THE DATA FROM PARENT TO CHILD IN LECTURE-06 THROUGH PROPS.
 PROPS RECEIVED IN CHILD AND WE DESTRUCTURE IT HERE.
 
 Lecture-07 Creating a Column Component with Styling
+
 Uptill here, we formed a component for header-<TaskForm/>
 Now for main, we are going to create <TaskColumn/> component.
 
@@ -205,3 +210,4 @@ export default TaskColumn;
 *WE IMPORT ANY IMAGE AS PATH AND USE ITS VARIABLE IN PROPS
 
 Lecture-08 Creating a Card Component with Styling
+And Importing it in <TaskColumn/>
