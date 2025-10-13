@@ -1,7 +1,7 @@
 import "./tag.css";
 
 const Tag = (props) => {
-  // console.log(props);
+  console.log(props);
   const { tagName } = props;
   return (
     <div className="tag-container">
