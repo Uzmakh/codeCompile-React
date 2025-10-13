@@ -1,0 +1,125 @@
+MODULE-05 This is the combined version with MODULE-04 for code-base.
+here only notes are asdded
+
+Lecture-01 Handling Form Submissions Efficiently
+We are handling the input-field here in the first step.
+we introduce initial state for the task and update task with setTask function,using useState hook.
+
+TaskForm.jsx
+import { useState } from "react";
+import Tag from "../tag/Tag";
+import "./taskform.css";
+
+const TaskForm = () => {
+  const [task, setTask] = useState("");
+  console.log(task);
+  //we create a separate method here for state updation,
+  const handleTask=(e)=>setTask(e.target.value);
+  return (
+    <header className="app_header">
+      <form>
+        <input
+          type="text"
+          className="task_input"
+          placeholder="Enter task details"
+          //onChange={(e)=>setTask(e.target.value)}
+          //Alternatively,
+          onChange={handleTask}
+        />
+        <form/>
+  )};
+ 1- We can see in console as task, what we type in input-field.
+ 2- Alternatively, we can create handleTask function to set task for its updation.
+ 3- Similarly, for the dropdown, we can do the same process by keeping status of dropdown in useState.
+ So our code looks like this,
+
+ const TaskForm = () => {
+  const [task, setTask] = useState("");
+  const [status, setStatus] = useState("");
+  console.log(task,status);
+ 
+  const handleTask = (e) => setTask(e.target.value);
+  const handleStatus = (e) => setStatus(e.target.value);
+  return (
+    <header className="app_header">
+      <form>
+        <input
+          type="text"
+          className="task_input"
+          placeholder="Enter task details"
+          onChange={handleTask}
+        />
+         <div className="status_add">
+            <select name="" id="" className="task_status" onChange={ handleStatus}>
+               <option></option>
+               .....
+              </select>
+           ....
+            <button type="submit" className="task_submit">
+              +Add
+            </button>
+          </div>
+        
+      </form>
+    </header>
+  );
+};
+
+export default TaskForm;
+
+Here is an issue that we are creating multiple states to handle change in each variable, that is not a feasible approach, so we optimize our code and adopt better practice to handle multiple states in our next lecture.
+
+Lecture-02 
+Pro Tip: Shortcut for Handling Complex Forms
+
+We will create a single state now for all fields, which are going to change with user interaction-that are input-field,dropdown status and tags.
+So we comment the separate states code, and adopt the optimized approach, instead;
+ // const [task, setTask] = useState("");
+  // const [status, setStatus] = useState("");
+  // console.log(task,status);
+ 
+  // const handleTask = (e) => setTask(e.target.value);
+  // const handleStatus = (e) => setStatus(e.target.value);
+
+ // Alternatively, 
+  step-1  const [taskData, setTaskData] = useState({  //initial state of our data
+    task: "",
+    status: "Ready For Development",
+  });
+  console.log(taskData);
+
+  step-2   we create a common function now, 
+  const handleChange=(e)=>
+  console.log(e.target);
+  
+   gives us the targetted tag from where we can access the values in them;ultimately our goal is to access dynamic values in these tags;input-task and dropdown-status
+
+  const handleChange = (e) => {
+    console.log(e.target)----> input-tag & dropdown-select-tag 
+    };
+   step-3   so to have distinction between tags, we define name in them,as;
+     <input
+          type="text"
+          className="task_input"
+          name="task"
+          placeholder="Enter task details"
+          onChange={handleChange}
+        />
+        and  <select name="status" id="" className="task_status" 
+              onChange={handleChange}
+            >   //and use the same function in both tags.
+
+ step-4    In handleChange, we now destructure name and value for e.target tags,
+   const handleChange = (e) => {
+    const { name, value } = e.target;
+     console.log(name, value);
+   };
+   Our final outcome of the function is,
+    const handleChange = (e) => {
+    const { name, value } = e.target;
+    // console.log(name, value);
+    setTaskData((prev) => {
+      return { ...prev, [name]: value };
+    });
+  };
+  We are passing a call-back function in setTaskData which inturn passes the previous data as an argument and returns a new object where name:value are copied to previous state.
