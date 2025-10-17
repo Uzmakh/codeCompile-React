@@ -2,23 +2,20 @@ import { useState } from "react";
 import Tag from "../tag/Tag";
 import "./taskform.css";
 
-const TaskForm = () => {
-  // const [task, setTask] = useState("");
-  // const [status, setStatus] = useState("");
-
- 
-  // const handleTask = (e) => setTask(e.target.value);
-  // const handleStatus = (e) => setStatus(e.target.value);
-
-  // Alternatively, 
+const TaskForm = ({ setTasks }) => {
   const [taskData, setTaskData] = useState({
     task: "",
-    status: "Ready For Development",
+    status: "Ready for Development",
+    tags: [],
   });
-  console.log(taskData);
+
+  const checkTag = (tag) => {
+    return taskData.tags.some((item) => item === tag);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
-    // console.log(name, value);
+
     setTaskData((prev) => {
       return { ...prev, [name]: value };
     });
@@ -26,9 +23,23 @@ const TaskForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(taskData);
-  }
-  
+    setTasks((prev) => {
+      return [...prev, taskData];
+    });
+  };
+
+  // * Logic for selected tags in tags-array
+  const selectedTag = (tag) => {
+    setTaskData((prev) => {
+      const isSelected = prev.tags.includes(tag);
+      const tags = isSelected
+        ? prev.tags.filter((item) => item != tag)
+        : [...prev.tags, tag];
+      return { ...prev, tags };
+    });
+  };
+  //  console.log(taskData);
+
   return (
     <header className="app_header">
       <form onSubmit={handleSubmit}>
@@ -42,12 +53,27 @@ const TaskForm = () => {
 
         <div className="task_form_bottom">
           <div className="tag_container">
-            <Tag tagName="DEV" />
-            <Tag tagName="QA" />
-            <Tag tagName="Product Owner" />
+            <Tag
+              tagName="DEV"
+              selectedTag={selectedTag}
+              selected={checkTag("DEV")}
+            />
+            <Tag
+              tagName="QA"
+              selectedTag={selectedTag}
+              selected={checkTag("QA")}
+            />
+            <Tag
+              tagName="Product Owner"
+              selectedTag={selectedTag}
+              selected={checkTag("Product Owner")}
+            />
           </div>
           <div className="status_add">
-            <select name="status" id="" className="task_status" 
+            <select
+              name="status"
+              id=""
+              className="task_status"
               onChange={handleChange}
             >
               <option value="Ready for development" className="value">
@@ -57,7 +83,6 @@ const TaskForm = () => {
                 In Progress
               </option>
               <option value="Ready for Test" className="value">
-                {" "}
                 Ready for Test
               </option>
               <option value="Closed" className="value">
@@ -68,7 +93,7 @@ const TaskForm = () => {
               +Add
             </button>
           </div>
-       </div>
+        </div>
       </form>
     </header>
   );

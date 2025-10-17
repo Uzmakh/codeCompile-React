@@ -1,15 +1,20 @@
 import TaskCard from "../taskcard/TaskCard";
 import "./taskcolumn.css";
 
-const TaskColumn = (props) => {
-  const { heading, icon } = props;
+const TaskColumn = ({ title, tasks, status, icon }) => {
   return (
     <section className="task_column">
       <h2 className="task_column_heading">
         <img src={icon} alt="" className="task_column_icon" />
-        {heading}
-        </h2>
-      <TaskCard />
+        {title}
+      </h2>
+      {tasks.map((task, index) => {
+        return (
+          task.status === status && <TaskCard key={index} title={task.task} tags={task.tags} />
+        )
+      
+      })
+      }
     </section>
   );
 };
