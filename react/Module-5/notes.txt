@@ -123,3 +123,378 @@ So we comment the separate states code, and adopt the optimized approach, instea
     });
   };
   We are passing a call-back function in setTaskData which inturn passes the previous data as an argument and returns a new object where name:value are copied to previous state.
+  step-5   To handle form efficiently, we use onSubmit that uses a function, in form-tag as, 
+   <form onSubmit={handleSubmit}>
+   ........
+   </form>
+
+    const handleSubmit = (e) => {
+    e.preventDefault();
+    console.log(taskData);
+  }
+  handleSubmit carries e.preventDefault()
+   to keep the page refreshed on clicking +Add button.
+
+   Lecture-03 Understanding & Using React Strict Mode
+   Why I am getting console two times.The reason behind it is, React Strict Mode double checks the rendering, for the deprecated dependencies. It provides a safety-mode to update your React application.
+
+   Lecture-04    
+Understanding and Implementing Tag Selection Logic
+
+ console.log(taskData);
+ As we click on tags-DEV,QA, or Product Owner  , we get console.log as browser takes button,by default to submit form. So we explicitly write in button-tag, type='button' in Tag.jsx file <-(step-1)
+ (step-2)-> Now I give tags also in useState as an initially empty array
+  const [taskData, setTaskData] = useState({
+    task: "",
+    status: "Ready For Development",
+    tags:[],
+  });
+  I want to have tags(multiple) in the taskData, by clicking on each tag.
+
+ (step-3)For this to happen, I create now a function in TaskForm.jsx file and pass it as props to the Tag.jsx
+
+step-3a
+  const selectedTag = (tag) => {
+          console.log(tag);
+         }
+
+
+  in return, I pass this function as props in each <Tag/>
+
+step-3b
+  <div className="tag_container">
+            <Tag tagName="DEV" selectedTag={selectedTag} />
+            <Tag tagName="QA" selectedTag={selectedTag} />
+            <Tag tagName="Product Owner"  selectedTag ={selectedTag}/>
+          </div>
+
+
+          which  is received in Tag.jsx file as,
+step-3c
+          const Tag = (props) => {
+              const { tagName, selectedTag } = props;   //destructure it here
+                  return (
+    <div className="tag-container">
+      <button
+        type="button"
+        className="tag"
+        onClick={() => selectedTag(tagName)}   //And use onClick function in button
+      >
+        {tagName}
+      </button>
+    </div>
+  );
+};
+
+when button is clicked, the function-selectedTag is triggered in the TaskForm-component and we get the clicked tag in console.
+
+Step-4->
+Now add Logic for selected tags in tags-array
+here we use if-else condition to fill tags in tags-array
+
+we get filerTags,in array if a tag already exists in array,
+else we get newly existed tag, means tag for the first time in the array.
+
+  // * Logic for selected tags in tags-array
+  const selectedTag = (tag) => {
+    // console.log(tag);
+    if (taskData.tags.some((item) => item === tag)) {
+      const filterTags = taskData.tags.filter((item) => item != tag);
+      setTaskData((prev) => {
+        return {
+          ...prev, tags: filterTags
+        }
+      })
+    } else {
+      setTaskData((prev) => {
+        return { ...prev, tags: [...prev.tags, tag] }
+      });
+      
+    }
+  };
+
+ Lecture-05 Dynamically Displaying Selected Tags with Applied Colors
+Uptil here,We are able to get our data,for the state variables,task,status and tags. Once we are able to get data, we can store it in local storage or in Database.
+
+Now we will set color on each tag that is selected.
+selected-> colored
+unselect-> normal
+
+ In TaskForm.jsx
+step-1->
+ const checkTag = (tag) => {
+    return (taskData.tags.some((item) => item === tag));
+  }   //this function will check tags if clicked-tag is present in tags-array,then return true, otherwise false
+
+  step-2-> (in TaskForm.jsx)
+   <div className="tag_container">
+            <Tag tagName="DEV" selectedTag={selectedTag} selected={checkTag("DEV")} />
+            <Tag tagName="QA" selectedTag={selectedTag} selected={checkTag("QA")} />
+            <Tag tagName="Product Owner" selectedTag={selectedTag} selected={checkTag("Product Owner")} />
+          </div>
+On the base of selected(true/false), we set color on tag 
+
+step-3-> styling
+  In Tag.jsx
+
+   const tagStyles = {
+   DEV: { backgroundColor:"#27457eff",color:"#fff"},
+   QA: { backgroundColor: "#BF092F", color: "#fff" },
+   PO: { backgroundColor: "#3B9797", color: "#fff" }
+  }
+//conditional styling
+  <button  style={selected ? tagStyles[tagName]:{}}>
+  {tagName}  
+  <button/>  
+
+  step-4 -> mapping for Product Owner   //as it has a space between two words, so to fix this, we take our value to Product Owner -key in object as "PO" in mapping 
+ In Tag.jsx
+
+   const tagKeyMap = {
+    "DEV": "DEV",
+    "QA": "QA",
+    "Product Owner": "PO"
+  }
+  const key = tagKeyMap[tagName]; 
+  Pass this key in conditional styling
+     //conditional styling
+  <button  style={selected ? tagStyles[key]:{}}>
+ 
+
+ Lecture-06   Code Optimization: Removing Duplicates and Organizing Constants
+
+ In this lecture, we will 
+ a- optimize the code we’ve written so far. 
+ b- We clean it up nicely, remove any duplicate code, 
+ c- and move our constants into a separate file and export them from there. 
+ That’s a best practice and the best way to organize things.
+
+ 00:55 c- We move constants from Tag.jsx file to constants-common.js file and import them to Tag.jsx file
+
+ import { tagStyles, tagKeyMap } from "../../constants/common.js";
+
+ constants->common.js
+ export const tagStyles = {
+  DEV: { backgroundColor: "#27497eff", color: "#fff" },
+  QA: { backgroundColor: "#BF092F", color: "#fff" },
+  PO: { backgroundColor: "#3B9797", color: "#fff" }
+};
+export const tagKeyMap = {
+  DEV: "DEV",
+  QA: "QA",
+  "Product Owner": "PO"
+}
+
+2:19 b- We removed previous lectures unwanted code
+
+  // const [task, setTask] = useState("");
+  // const [status, setStatus] = useState("");
+
+ 
+  // const handleTask = (e) => setTask(e.target.value);
+  // const handleStatus = (e) => setStatus(e.target.value);
+
+ 2:35 a- We optimize this code,
+  // (Instead of using this if-else,we use the optimized code, now), 
+  We remove this,
+    // * Logic for selected tags in tags-array
+   const selectedTag = (tag) => {
+    if (taskData.tags.some((item) => item === tag)) {
+      const filterTags = taskData.tags.filter((item) => item != tag);
+      setTaskData((prev) => {
+        return { ...prev,tags: filterTags,
+        };
+      });
+    } else {
+      setTaskData((prev) => {
+        return { ...prev, tags: [...prev.tags, tag] };
+      });
+    }
+  };
+
+and keep this,
+
+ // * Logic for selected tags in tags-array
+  const selectedTag = (tag) => {
+      //I'll check the tag in this (prev)
+    setTaskData((prev) => {
+      const isSelected = prev.tags.includes(tag);  //true/false-checking in the state,tag is there or not
+      const tags = isSelected ? prev.tags.filter((item) => item != tag) : [...prev.tags, tag]
+
+      return {...prev,tags}
+    });
+  }
+     console.log(taskData);   till 5:30
+
+     Now consider, if we are not selecting color, then what we will do, 
+
+   step-1  We comment this code,
+  // const checkTag = (tag) => {
+  //   return taskData.tags.some((item) => item === tag);
+  // };
+ step-2 and do as in <Tag/>
+  <div className="tag_container">
+            <Tag
+              tagName="DEV"
+              selectedTag={selectedTag}
+              // selected={checkTag("DEV")}
+              selected="false"
+            />
+            <Tag
+              tagName="QA"
+              selectedTag={selectedTag}
+              // selected={checkTag("QA")}
+              selected="false"
+            />
+            <Tag
+              tagName="Product Owner"
+              selectedTag={selectedTag}
+              // selected={checkTag("Product Owner")}
+              selected="false"
+            />
+          </div>   //uptil here, we are able to remove prev-tag in the array;but we don't want so, we want to keep it.
+step-3 
+so we remove the filter logic and add prev.tags in const tags line, now we are able to keep the previous tags in our state array.
+
+ // * Logic for selected tags in tags-array
+  const selectedTag = (tag) => {
+    setTaskData((prev) => {
+      const isSelected = prev.tags.includes(tag);  
+      const tags = isSelected ? prev.tags : [...prev.tags, tag]
+      return { ...prev, tags }
+    });
+  };
+
+  Lecture-07  Selecting the Data Structure & Implementing Card Display Logic
+
+  Our data is stored in state variable.
+  We will now bring the data in Task Card,as we add some data-task,tags or status, it must show in card, but with the condition that is status. It will go in the respective TaskColumn on the basis of status.
+
+ 1:50 We keep sample data in data.js file
+  const data = [
+  {
+    task: "sample",
+    status: "Ready For Development",
+    tags: ["DEV"],
+  },
+  {
+    task: "test",
+    status: "In Progress",
+    tags: ["QA"],
+  }
+];
+
+when we enter data-task,status and tag, we get an object in console
+3:35 In TaskColumn, we get TaskCard, <TaskCard/> will return only when status is matched.
+
+3:50  To achieve taskData in object form, I define as in App.jsx
+ 
+      step-1         const[tasks,setTasks]=useState([]);
+                   (d- console.log(tasks))
+      - initially,tasks are empty 
+      - with the help of setTasks, we update our tasks on UI
+
+ step-2 So We pass this setTasks into <TaskForm /> as props, to the TaskForm-Component
+     a-    <TaskForm setTasks={setTasks}/>   //from parent,sending
+
+  And destructure it in TaskForm.jsx in TaskForm function, as   //in child, receiving
+    b-       const TaskForm = ({ setTasks }) => {
+
+           };
+    c-  Now where the form is going to submit, i.e., in handleSubmit function, We set setTasks here, by logic,
+            setTasks((prev) => {
+                      return [...prev, taskData];
+                          });   // our taskData comes here,on submitting,copied with the previos data,in a new array.
+              (It returns the tasks back to in App.jsx,so console there, to see taskData
+                console.log(tasks);)  till 5:57
+   
+   6:05  Test the data, by entering task in input-field, selecting tag, and status, we get an array of object in console.
+
+   We have data now, d- console.log(tasks)
+
+7:09 step-3
+   a- We now pass the tasks and status also in <TaskColumn/> as props, on the base of separate status, we can render the <TaskCard/>
+
+       <main className="app_main">
+       <TaskColumn title="Ready For Development" tasks={tasks} status="Ready for Development"/>
+        <TaskColumn title="In Progress" tasks={tasks} status="In Progress" />
+        <TaskColumn title=" Ready for Test" tasks={tasks} status="Ready for Test" />
+        <TaskColumn title="Closed" icon={checkmarkIcon} tasks={tasks} status="Closed" />
+      </main>
+
+
+and receive in TaskColumn.jsx
+
+ b-    const TaskColumn = ({ title, tasks, status, icon }) => {
+
+  return (
+    <section className="task_column">
+      <h2 className="task_column_heading">
+        <img src={icon} alt="" className="task_column_icon" />
+        {title}
+      </h2>
+      {tasks.map((task, index) => {
+        return (
+          task.status === status && <TaskCard key={index} title={task.task} tags={task.tags} />
+        )
+      // here the logic for status is applied, to render the respective card
+      })
+      }
+    </section>
+  );
+
+     }
+
+ c-  =>    return (
+          task.status === status && <TaskCard key={index} title={task.task} tags={task.tags} />
+        )
+
+From here we are sending taskCard-title and tags which we receive in TaskCard-component in TadkCard.jsx file,
+       like this,
+    d-    const TaskCard = ({ title, tags }) => {
+  return (
+    <article className="task_card">
+      <p className="task_text">{title}</p>
+      <div className="task_card_bottom_line">
+        <div className="task_card_tags">
+          {tags.map((tag, index) => {
+            <Tag key={index} tagName={tag} selected />;
+          })}
+        </div>
+        <div className="task_delete">
+          <img src={deleteIcon} alt="" className="delete_icon" />
+        </div>
+      </div>
+    </article>
+  );
+};
+for tags, we're also using here .map() method to get multiple tags and use selected attribute here, to have colored tag.
+
+till 13:48
+Fixing the error in code at 14:12
+Highlight the tags at 15:20 till 16:13
+
+Now if we refresh the page, the data will vanish, as it is not stored anywhere; it is in state that is variable-based.
+We will store it in local storage, in the coming lecture, from we could able to retrieve the data.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
