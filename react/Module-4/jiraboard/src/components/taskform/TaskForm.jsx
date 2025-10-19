@@ -26,6 +26,11 @@ const TaskForm = ({ setTasks }) => {
     setTasks((prev) => {
       return [...prev, taskData];
     });
+    setTaskData({
+      task: "",
+      status: "Ready for Development",
+      tags: [],
+    });
   };
 
   // * Logic for selected tags in tags-array
@@ -46,6 +51,7 @@ const TaskForm = ({ setTasks }) => {
         <input
           type="text"
           className="task_input"
+          value={taskData.task}
           name="task"
           placeholder="Enter task details"
           onChange={handleChange}
@@ -74,6 +80,7 @@ const TaskForm = ({ setTasks }) => {
               name="status"
               id=""
               className="task_status"
+              value={taskData.status}
               onChange={handleChange}
             >
               <option value="Ready for development" className="value">
