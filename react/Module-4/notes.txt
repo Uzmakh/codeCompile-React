@@ -188,7 +188,7 @@ So the main
       </main>
 We are passing headings for each task-column into props,which are received by the child-component-<TaskColumn/>
 
-In this lecture, we created a column component, reused it,passing title as heading in props and also added styling to it in taskcolumn.css
+In this lecture, we created a column component, reused it,passing heading in props and also added styling to it in taskcolumn.css
 
 TaskColumn.jsx
 import "./taskcolumn.css";
