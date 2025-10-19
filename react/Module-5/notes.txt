@@ -1,5 +1,6 @@
 MODULE-05 This is the combined version with MODULE-04 for code-base.
-here only notes are asdded
+here only notes are added.
+In this module, we will start implementing the logic for functionality in our Jira Board App.
 
 Lecture-01 Handling Form Submissions Efficiently
 We are handling the input-field here in the first step.
@@ -476,6 +477,151 @@ Highlight the tags at 15:20 till 16:13
 
 Now if we refresh the page, the data will vanish, as it is not stored anywhere; it is in state that is variable-based.
 We will store it in local storage, in the coming lecture, from we could able to retrieve the data.
+
+Lecture-08 Implementing Delete Functionality
+
+Now we will reset the data fields, for a better user-experience -  (UX)
+- input-field should be empty,
+- tags must be unselected 
+- and status come to original when data is submitted and card is rendered.
+
+we keep 
+  setTaskData({
+      task: "",
+      status: "Ready for Development",
+      tags: [],
+    });
+    from useState in handleSubmit function,
+    
+ const handleSubmit = (e) => {
+    e.preventDefault();
+    setTasks((prev) => {
+      return [...prev, taskData];
+    });
+    setTaskData({
+      task: "",
+      status: "Ready for Development",
+      tags: [],
+    });
+  };
+    
+     but we notice that only tags are unselected, nor the task data from input-field neither the status gets reset. For this to reset, 
+     we have to put value-attribute in input field and dropdown-status.
+
+       <input
+          type="text"
+          className="task_input"
+          value={taskData.task}
+          name="task"
+          placeholder="Enter task details"
+          onChange={handleChange}
+        />
+
+        and
+
+         <select
+              name="status"
+              id=""
+              className="task_status"
+              value={taskData.status}
+              onChange={handleChange}
+            >
+        Now we are able to reset all our fields. (till 3:45)
+
+        3:48 Coming to the topic-implementing delete functionality on delete button, we have to locate our delete button, where we put it...it is in the <TaskCard/> component that is nested in <TaskColumn/>, but we deal this delete button in App.jsx, as we are getting complete data in the form of array of objects in App.jsx
+        const App = () => {
+            const [tasks, setTasks] = useState([]);
+            // console.log(tasks);
+ 
+            ........................................
+
+             };
+
+    We can actually do it where it is rendering for UI, but we have to get data, then here in <TaskCard/> from App.jsx through prop-drilling.
+        What We are doing in our app is prop-drilling, to get data from parent to children. The alternate way is to use context API but we will do things progressively and gradually throughout the course.
+
+        So , what we do in App.jsx is,
+
+    step-1     const handleDelete = (taskIndex) => {
+           const keepTasks= tasks.filter((task, index) => index != taskIndex);
+            setTasks(keepTasks);
+            
+          }
+
+      // (  //For better understanding, see this code
+            const [tasks, setTasks] = useState([]);
+            console.log("All tasks:", tasks);
+
+            const handleDelete = (taskIndex) => {
+               // Log the task that's about to be deleted
+               console.log("Deleting task at index:", taskIndex);
+               console.log("Task to delete:", tasks[taskIndex]);
+    
+               const existingTasks = tasks.filter((task, index) => index !== taskIndex);
+               console.log("Remaining tasks after deletion:", existingTasks);
+    
+               setTasks(existingTasks);
+  }
+       )
+
+  step-2  In App.jsx:   
+  in return,
+  <main className="app_main">
+        <TaskColumn 
+          title="Ready For Development" 
+          tasks={tasks} 
+          status="Ready for Development"
+          handleDelete={handleDelete}
+        />
+        {/* Pass handleDelete to other TaskColumn components as well */}
+      </main>
+
+step-3    Pass the handleDelete function to TaskColumn component as,
+In TaskColumn.jsx: 
+const TaskColumn = ({ heading, tasks, status, icon, handleDelete}) => {
+  return (
+    <section className="task_column">
+      <h2 className="task_column_heading">
+        <img src={icon} alt="" className="task_column_icon" />
+        {heading}
+      </h2>
+      {tasks.map((task, index) => {
+        return (
+          task.status === status && <TaskCard key={index} title={task.task} tags={task.tags} handleDelete={handleDelete} index={index} />
+        )
+      
+      })
+      }
+    </section>
+  );
+};
+
+export default TaskColumn;
+
+step-4 Pass it further down to TaskCard component,as
+
+In TaskCard.jsx:
+
+const TaskCard = ({ title, tags, handleDelete,index }) => {
+  return (
+    <article className="task_card">
+      <p className="task_text">{title}</p>
+      <div className="task_card_bottom_line">
+        <div className="task_card_tags">
+          {tags.map((tag, index) => {
+            return <Tag key={index} tagName={tag} selected />;
+          })}
+        </div>
+        <div className="task_delete" onClick={() => { handleDelete(index) }}>
+          <img src={deleteIcon} alt="" className="delete_icon" />
+        </div>
+      </div>
+    </article>
+  );
+};
+
+export default TaskCard;
+
 
 
 
