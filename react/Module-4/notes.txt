@@ -5,14 +5,36 @@
 
  Lecture-02 Design Breakdown: Header + Main with Styling
 
+ We have a Figma design for our React-app
+ We start as to create project with this command in our terminal of the relative folder:
+ npm create vite@latest
+ then give project name: JiraBoard
+ we use React and Javascript,
+cd jiraboard - to enter the project folder
+npm install - To install all the dependencies of Nodejs
+npm run dev - to open the application in browser
+
+Now we have a pre-defined folder structure in our VS-Code Text Editor.
+- we remove the unwanted code from App.jsx that is our starting file for the whole-app. Then we have to remove the styling given in App.css and index.css files. And will do our own styling.
+
 First we go to index.html and update title.
  <title>Jira Board</title> 
- Then proceed further as;
+ We don't need to have vite or react favicons, so we may remove them also.
+
+ In index.css, we do styling that applies to all the app
+* {
+ margin: 0;
+ padding: 0;
+ box-sizing: border-box;
+}
+And the styling in App.css, will be specific to the App.jsx component.
+
+Then proceed further as;
 
 Header + Main with Styling
 - We use semantic html for the structure.
-- Our design can easily be split into two major parts: header and main;
-- we use <header> and <main> semantic tags 
+- Our design can easily be split into two major parts: header    and  main;
+- so we use <header> and <main> semantic tags 
 
 App.jsx
 import "./App.css";
@@ -31,6 +53,8 @@ const App = () => {
   );
 };
 export default App;
+
+Our whole app is wrapped into a div with className="app"
 
 App.css
 .app{
